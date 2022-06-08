@@ -24,10 +24,14 @@ app.get('/', (req, res) => {
    res.render('home');
 });
 
-app.get('/makenewplace', async (req, res) => {
-    const place = new Place({title: 'Cafe', description:'nice place'});
-    await place.save();
-    res.send(place);
+app.get('/places', async (req, res) => {
+    const places = await Place.find({});
+    res.render('places/index', { places });
+});
+
+app.get('/places/:id', async ( req, res) => {
+    const place = await Place.findById(req.params.id);
+    res.render('places/show', {place});
 });
 
 app.listen(3000, ( )=> {
