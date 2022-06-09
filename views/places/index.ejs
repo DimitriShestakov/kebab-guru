@@ -8,6 +8,9 @@
   </head>
   <body>
     <h1>All Places</h1>
+    <div>
+      <a href="/places/new">Add Place</a>
+    </div>
     <% for(let place of places) { %>
     <li><a href="/places/<%=place.id%>"><%=place.title%></a></li>
     <% } %>

@@ -10,6 +10,8 @@ const req = require('express/lib/request');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.urlencoded({ extended: true }));
+
 mongoose.connect('mongodb://localhost:27017/zusammen', {
 });
 
@@ -29,10 +31,22 @@ app.get('/places', async (req, res) => {
     res.render('places/index', { places });
 });
 
+app.get('/places/new', (req, res) => {
+    res.render('places/new');
+});
+
+app.post('/places', async (req, res) => {
+    const place = new Place(req.body.place);
+    await place.save();
+   res.redirect(`/places/${place._id}`);
+});
+
 app.get('/places/:id', async ( req, res) => {
     const place = await Place.findById(req.params.id);
     res.render('places/show', {place});
 });
+
+
 
 app.listen(3000, ( )=> {
     console.log('Server running on 3000')
