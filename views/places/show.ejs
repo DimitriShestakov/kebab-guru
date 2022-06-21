@@ -9,8 +9,9 @@
   <body>
     <h1><%= place.title %></h1>
     <h2><%= place.location %></h1>
-      <div>
-        <a href="/places/">Back to all places</a>
-      </div>
+     <footer>
+      <a href="/places/">Back to all places</a>
+      <a href="/places/<%= place._id %>/edit">Edit</a>
+     </footer>     
   </body>
 </html>

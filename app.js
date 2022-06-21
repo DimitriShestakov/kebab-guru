@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Place = require('./models/place');
 
+const methodOverride = require('method-override');
 const app = express();
 const path = require('path');
 const res = require('express/lib/response');
@@ -11,6 +12,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 mongoose.connect('mongodb://localhost:27017/zusammen', {
 });
@@ -41,9 +43,20 @@ app.post('/places', async (req, res) => {
    res.redirect(`/places/${place._id}`);
 });
 
-app.get('/places/:id', async ( req, res) => {
+app.get('/places/:id', async (req, res) => {
     const place = await Place.findById(req.params.id);
     res.render('places/show', {place});
+});
+
+app.get('/places/:id/edit', async(req, res) => {
+    const place = await Place.findById(req.params.id);
+    res.render('places/edit', {place});
+});
+
+app.put('/places/:id', async(req,res) => {
+    const {id} = req.params;
+    const place = await Place.findOneAndUpdate(id, {...req.body.place});
+    res.redirect(`/places/${place._id}`);
 });
 
 
