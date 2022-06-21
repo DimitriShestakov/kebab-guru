@@ -59,6 +59,12 @@ app.put('/places/:id', async(req,res) => {
     res.redirect(`/places/${place._id}`);
 });
 
+app.delete('/places/:id', async(req,res) => {
+    const {id} = req.params;
+    await Place.findByIdAndDelete(id);
+    res.redirect('/places');
+})
+
 
 
 app.listen(3000, ( )=> {
