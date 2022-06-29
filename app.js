@@ -7,7 +7,9 @@ const app = express();
 const path = require('path');
 const res = require('express/lib/response');
 const req = require('express/lib/request');
+const ejsMate = require('ejs-mate');
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -63,7 +65,7 @@ app.delete('/places/:id', async(req,res) => {
     const {id} = req.params;
     await Place.findByIdAndDelete(id);
     res.redirect('/places');
-})
+});
 
 
 
